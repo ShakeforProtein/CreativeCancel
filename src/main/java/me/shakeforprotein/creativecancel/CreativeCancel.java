@@ -24,6 +24,7 @@ public final class CreativeCancel extends JavaPlugin implements Listener {
     public void onEnable() {
         // Plugin startup logic
         System.out.println(cprefix + "Creative Cancel is Starting");
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         getServer().getPluginManager().registerEvents(this, this);
         getConfig().options().copyDefaults(true);
         saveConfig();

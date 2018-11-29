@@ -13,9 +13,9 @@ import java.net.URLConnection;
 
 public class UpdateChecker {
 
-
     //These two need to be changed for different plugins
     private CreativeCancel pl;
+    public String requiredPermission = pl.getName().toLowerCase() +".updatechecker";
 
     public UpdateChecker(CreativeCancel pl) {
         this.pl = pl;

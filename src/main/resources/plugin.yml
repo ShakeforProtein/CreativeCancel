@@ -28,3 +28,6 @@ permissions:
   creativecancel.bypass:
     description: 'Allows a player to completely ignore the blocked item list'
     default: op
+  creativecancel.updatecheck:
+    description: 'Notifies player if plugin update available'
+    default: op
