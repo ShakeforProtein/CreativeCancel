@@ -1,0 +1,30 @@
+name: CreativeCancel
+version: ${project.version}
+main: me.shakeforprotein.creativecancel.CreativeCancel
+prefix: [CreativeCancel]
+authors: [ShakeforProtein]
+description: Intended to stop certain items being obtained by creative mode players
+website: http://www.treebomc.com
+api-version: 1.13
+
+commands:
+  ccblock:
+    description: Adds item to Creative Cancel blocked list.
+    usage: /<command> <arguments>
+  ccunblock:
+    description: Removes item from Creative Cancel blocked list.
+    usage: /<command> <arguments>
+  ccshowblocked:
+    description: Lists items blocked by Creative Cancel.
+    usage: /<command>
+
+permissions:
+  creativecancel.cancel:
+    description: 'Allows a player to add or remove items from the blocked items list'
+    default: op
+  creativecancel.show:
+    description: 'Allows a player to see the list of blocked items'
+    default: true
+  creativecancel.bypass:
+    description: 'Allows a player to completely ignore the blocked item list'
+    default: op

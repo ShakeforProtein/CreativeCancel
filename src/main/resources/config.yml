@@ -1,0 +1,22 @@
+version:
+yamlCreatedInVersion: $[project.version]
+apiLink: 'https://api.github.com/repos/TreeboMC/Creative-Control/releases/latest'
+releasePage: 'https://github.com/repos/TreeboMC/Creative-Control/releases/latestt'
+checkUpdates: 'true'
+
+BlockedItems:
+  Example_World:
+    TRIDENT: TRIDENT
+
+ConsoleNotify: true
+
+messages:
+  prefix: '[CreativeCancel] - '
+  showBlocked: 'The following items have are currently blocked on this world.'
+  itemBlocked: 'You have blocked XXXITEMXXX on this world.'
+  itemUnblocked: 'You have unblocked XXXITEMXXX  on this world.'
+  noCommandPerm: 'Im sorry XXXPLAYERXXX, but you lack sufficient privileges to use Creative Cancel.'
+  animate: 'Im sorry XXXPLAYERXXX, but we have elected to disallow the use of XXXITEMXXX on this world'
+  changedHotbar: 'Im sorry XXXPLAYERXXX, but we have elected to disallow the use of XXXITEMXXX on this world'
+  itemDropped: 'Im sorry XXXPLAYERXXX, but we have elected to disallow the use of XXXITEMXXX on this world'
+  closeInventory: 'Im sorry XXXPLAYERXXX, but we have elected to disallow the use of XXXITEMXXX on this world'
