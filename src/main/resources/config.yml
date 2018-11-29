@@ -1,7 +1,7 @@
 version:
-yamlCreatedInVersion: $[project.version]
-apiLink: 'https://api.github.com/repos/TreeboMC/Creative-Control/releases/latest'
-releasePage: 'https://github.com/repos/TreeboMC/Creative-Control/releases/latestt'
+yamlCreatedInVersion: ${project.version}
+apiLink: 'https://api.github.com/repos/TreeboMC/CreativeCancel/releases/latest'
+releasePage: 'https://github.com/TreeboMC/CreativeCancel/releases/latestt'
 checkUpdates: 'true'
 
 BlockedItems:
