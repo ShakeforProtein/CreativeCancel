@@ -4,6 +4,8 @@ apiLink: 'https://api.github.com/repos/TreeboMC/CreativeCancel/releases/latest'
 releasePage: 'https://github.com/TreeboMC/CreativeCancel/releases/latestt'
 checkUpdates: 'true'
 
+maxEnchantLevel: 10
+
 BlockedItems:
   Example_World:
     TRIDENT: TRIDENT
@@ -11,7 +13,7 @@ BlockedItems:
 ConsoleNotify: true
 
 messages:
-  prefix: '[CreativeCancel] - '
+  badge: '[CreativeCancel] - '
   showBlocked: 'The following items have are currently blocked on this world.'
   itemBlocked: 'You have blocked XXXITEMXXX on this world.'
   itemUnblocked: 'You have unblocked XXXITEMXXX  on this world.'

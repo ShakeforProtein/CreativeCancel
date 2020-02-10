@@ -5,12 +5,16 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Map;
 
 import static org.bukkit.Material.matchMaterial;
 
@@ -19,6 +23,7 @@ public final class CreativeCancel extends JavaPlugin implements Listener {
     String cprefix = getConfig().getConfigurationSection("messages").getString("prefix");
 
     private UpdateChecker uc;
+    public String badge = getConfig().getString("messages,badge");
 
     @Override
     public void onEnable() {
@@ -29,6 +34,7 @@ public final class CreativeCancel extends JavaPlugin implements Listener {
         getConfig().options().copyDefaults(true);
         saveConfig();
         this.uc = new UpdateChecker(this);
+        uc.getCheckDownloadURL();
     }
 
     @Override
@@ -48,13 +54,27 @@ public final class CreativeCancel extends JavaPlugin implements Listener {
                 for (String item : blockedList.getKeys(false)) {
                     item = item.toUpperCase().trim();
                     if (Material.matchMaterial(item) != null) {
-                        if (p.getInventory().contains(Material.getMaterial(item))) {
+                        if (p.getInventory().contains(Material.getMaterial(item)) || p.getInventory().getItemInMainHand().getType() == Material.valueOf(item) || p.getInventory().getItemInOffHand().getType() == Material.valueOf(item)) {
                             e.setCancelled(true);
                             p.getInventory().remove(matchMaterial(item));
                             p.sendMessage(prefix + ChatColor.RED + getConfig().getConfigurationSection("messages").getString("changedHotbar").replace("XXXPLAYERXXX", p.getName() + "§r").replace("XXXITEMXXX", item + "§r").replace('&', '§'));
                         }
 
 
+                    }
+                }
+            }
+            for (ItemStack item : p.getInventory()) {
+                if (item.hasItemMeta()) {
+
+                    Map<Enchantment, Integer> enchantments = item.getEnchantments();
+
+                    for (Enchantment enchantment : enchantments.keySet()) {
+                        String name = enchantment.getName(); // this gets the name from this iteration's enchantment
+                        Integer power = enchantments.get(enchantment); // this gets the power from the hashmap using this iteration's enchantment as the key
+                        if (power > getConfig().getInt("maxEnchantLevel")) {
+                            item.removeEnchantment(enchantment);
+                        }
                     }
                 }
             }
@@ -80,6 +100,20 @@ public final class CreativeCancel extends JavaPlugin implements Listener {
                 }
 
             }
+            for (ItemStack item : p.getInventory()) {
+                if (item.hasItemMeta()) {
+
+                    Map<Enchantment, Integer> enchantments = item.getEnchantments();
+
+                    for (Enchantment enchantment : enchantments.keySet()) {
+                        String name = enchantment.getName(); // this gets the name from this iteration's enchantment
+                        Integer power = enchantments.get(enchantment); // this gets the power from the hashmap using this iteration's enchantment as the key
+                        if (power > getConfig().getInt("maxEnchantLevel")) {
+                            item.removeEnchantment(enchantment);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -94,12 +128,27 @@ public final class CreativeCancel extends JavaPlugin implements Listener {
                 for (String itemA : blockedList.getKeys(false)) {
                     String item = blockedList.getString(itemA).toUpperCase().trim();
                     if (Material.matchMaterial(item) != null) {
-                        if (p.getInventory().contains(matchMaterial(item))) {
+                        if (p.getInventory().contains(matchMaterial(item))  || p.getInventory().getItemInMainHand().getType() == Material.valueOf(item) || p.getInventory().getItemInOffHand().getType() == Material.valueOf(item)) {
                             p.getInventory().remove(matchMaterial(item));
                             p.sendMessage(prefix + ChatColor.RED + getConfig().getConfigurationSection("messages").getString("closeInventory").replace("XXXPLAYERXXX", p.getName()).replace("XXXITEMXXX", item).replace('&', '§'));
                         }
                     }
 
+                }
+            }
+
+            for (ItemStack item : p.getInventory()) {
+                if (item.hasItemMeta()) {
+
+                    Map<Enchantment, Integer> enchantments = item.getEnchantments();
+
+                    for (Enchantment enchantment : enchantments.keySet()) {
+                        String name = enchantment.getName(); // this gets the name from this iteration's enchantment
+                        Integer power = enchantments.get(enchantment); // this gets the power from the hashmap using this iteration's enchantment as the key
+                        if (power > getConfig().getInt("maxEnchantLevel")) {
+                            item.removeEnchantment(enchantment);
+                        }
+                    }
                 }
             }
         }
@@ -115,10 +164,27 @@ public final class CreativeCancel extends JavaPlugin implements Listener {
                 for (String itemA : blockedList.getKeys(false)) {
                     String item = blockedList.getString(itemA).toUpperCase();
                     if (Material.matchMaterial(item) != null) {
-                        if (p.getInventory().contains(matchMaterial(item))) {
+                        if (p.getInventory().contains(matchMaterial(item)) || p.getInventory().getItemInMainHand().getType() == Material.valueOf(item) || p.getInventory().getItemInOffHand().getType() == Material.valueOf(item) ) {
                             e.setCancelled(true);
                             p.getInventory().remove(matchMaterial(item));
                             p.sendMessage(prefix + ChatColor.RED + getConfig().getConfigurationSection("messages").getString("animate").replace("XXXPLAYERXXX", p.getName()).replace("XXXITEMXXX", item).replace('&', '§'));
+                        }
+                    }
+                }
+            }
+            for (ItemStack item : p.getInventory().getContents()) {
+                if (item.hasItemMeta()) {
+
+                    if (item.getItemMeta().hasEnchants()) {
+
+
+                        Map<Enchantment, Integer> enchantments = item.getEnchantments();
+                        for (Enchantment enchantment : enchantments.keySet()) {
+                            String name = enchantment.getName(); // this gets the name from this iteration's enchantment
+                            Integer power = enchantments.get(enchantment); // this gets the power from the hashmap using this iteration's enchantment as the key
+                            if (power > getConfig().getInt("maxEnchantLevel")) {
+                                item.removeEnchantment(enchantment);
+                            }
                         }
                     }
                 }
@@ -157,7 +223,7 @@ public final class CreativeCancel extends JavaPlugin implements Listener {
                     if (addToList == true) {
                         getConfig().set("BlockedItems." + World + "." + argString.toUpperCase(), argString.toUpperCase());
                         saveConfig();
-                        if(getConfig().getString("ConsoleNotify").equalsIgnoreCase("true")) {
+                        if (getConfig().getString("ConsoleNotify").equalsIgnoreCase("true")) {
                             System.out.println(cprefix + sender.getName() + " has added " + argString + " to the blocked items list on World - " + World);
                         }
                         sender.sendMessage(prefix + getConfig().getConfigurationSection("messages").getString("itemBlocked").replace("XXXPLAYERXXX", p.getName() + "§r").replace("XXXITEMXXX", ChatColor.RED + argString).replace('&', '§'));
@@ -180,7 +246,7 @@ public final class CreativeCancel extends JavaPlugin implements Listener {
                     if (removeFromList == true) {
                         getConfig().set("BlockedItems." + World + "." + argString.toUpperCase(), null);
                         saveConfig();
-                        if(getConfig().getString("ConsoleNotify").equalsIgnoreCase("true")) {
+                        if (getConfig().getString("ConsoleNotify").equalsIgnoreCase("true")) {
                             System.out.println(cprefix + sender.getName() + " has removed " + argString + " from the blocked items list on World - " + World);
                         }
                         sender.sendMessage(prefix + getConfig().getConfigurationSection("messages").getString("itemUnblocked").replace("XXXITEMXXX", ChatColor.GREEN + argString + "§r").replace('&', '§'));
